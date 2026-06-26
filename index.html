@@ -1,0 +1,158 @@
+<!doctype html>
+<html dir="rtl" lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>برنامج تقسيم القطة</title>
+    <style>
+      /* إعدادات الخطوط والخلفية */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f7f6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      /* تصميم المربع الأبيض الأساسي */
+      .card {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        width: 320px;
+        text-align: center;
+      }
+
+      h2 {
+        color: #2c3e50;
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-size: 24px;
+      }
+
+      /* تصميم العناوين فوق مربعات الإدخال */
+      label {
+        display: block;
+        text-align: right;
+        margin-bottom: 8px;
+        color: #34495e;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      /* تصميم مربعات الإدخال */
+      input {
+        width: 90%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 2px solid #ecf0f1;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+
+      input:focus {
+        border-color: #3498db;
+        outline: none;
+      }
+
+      /* تصميم زر الحساب */
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 15px;
+        font-size: 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+      }
+
+      /* تصميم مربع النتيجة */
+      .result {
+        margin-top: 25px;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 20px;
+        border-radius: 8px;
+        display: none; /* مخفي في البداية حتى يضغط المستخدم على الزر */
+      }
+
+      /* ألوان النتيجة الصحيحة */
+      .success {
+        background-color: #e8f8f5;
+        color: #1abc9c;
+        border: 1px solid #1abc9c;
+      }
+
+      /* ألوان رسالة الخطأ */
+      .error {
+        background-color: #fdedec;
+        color: #e74c3c;
+        border: 1px solid #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>💸 تقسيم القطة</h2>
+
+      <label for="totalAmount">المبلغ الإجمالي (كم الفاتورة؟):</label>
+      <input type="number" id="totalAmount" placeholder="مثال: 500" />
+
+      <label for="peopleCount">عدد الأشخاص:</label>
+      <input type="number" id="peopleCount" placeholder="مثال: 4" />
+
+      <button onclick="calculate()">احسب القطة</button>
+
+      <!-- هذا المربع ستظهر فيه النتيجة -->
+      <div id="resultBox" class="result"></div>
+    </div>
+
+    <script>
+      function calculate() {
+        // سحب الأرقام التي أدخلها المستخدم
+        let amount = document.getElementById("totalAmount").value;
+        let people = document.getElementById("peopleCount").value;
+        let resultBox = document.getElementById("resultBox");
+
+        // تنظيف الفئات السابقة (إذا كان هناك خطأ أو نجاح قديم)
+        resultBox.classList.remove("success", "error");
+
+        // التأكد من أن المستخدم أدخل أرقاماً صحيحة ومنطقية
+        if (amount === "" || people === "") {
+          resultBox.innerHTML = "⚠️ الرجاء تعبئة جميع الخانات.";
+          resultBox.classList.add("error");
+          resultBox.style.display = "block";
+          return;
+        }
+
+        if (amount <= 0 || people <= 0) {
+          resultBox.innerHTML = "❌ خطأ: يجب أن تكون الأرقام أكبر من صفر.";
+          resultBox.classList.add("error");
+          resultBox.style.display = "block";
+          return;
+        }
+
+        // العملية الحسابية
+        let share = amount / people;
+
+        // عرض النتيجة النهائية للمستخدم
+        // استخدمنا toFixed(2) لعرض رقمين بعد الفاصلة فقط (مثال: 125.50)
+        resultBox.innerHTML =
+          "كل شخص يدفع:<br><br> 💵 " + share.toFixed(2) + " ريال";
+        resultBox.classList.add("success");
+        resultBox.style.display = "block";
+      }
+    </script>
+  </body>
+</html>
